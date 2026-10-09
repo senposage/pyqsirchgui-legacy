@@ -1,0 +1,661 @@
+<Window x:Class="PyQsirchgui.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="PyQsirchgui Settings"
+        Width="720"
+        Height="560"
+        MinWidth="620"
+        MinHeight="460"
+        Icon="Assets/app.ico"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource AppWindowBrush}"
+        Foreground="{DynamicResource AppTextBrush}">
+  <shell:WindowChrome.WindowChrome>
+    <shell:WindowChrome CaptionHeight="42"
+                        ResizeBorderThickness="7"
+                        GlassFrameThickness="0"
+                        CornerRadius="10"
+                        UseAeroCaptionButtons="False" />
+  </shell:WindowChrome.WindowChrome>
+  <Window.Resources>
+    <SolidColorBrush x:Key="AppWindowBrush" Color="#F3F3F3" />
+    <SolidColorBrush x:Key="AppSurfaceBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AppPanelBrush" Color="#FAFAFA" />
+    <SolidColorBrush x:Key="AppElevatedBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AppBorderBrush" Color="#D0D0D0" />
+    <SolidColorBrush x:Key="AppTextBrush" Color="#1B1B1B" />
+    <SolidColorBrush x:Key="AppMutedTextBrush" Color="#666666" />
+    <SolidColorBrush x:Key="AppAccentBrush" Color="#0067C0" />
+    <SolidColorBrush x:Key="AppSubtleBorderBrush" Color="#E5E5E5" />
+    <SolidColorBrush x:Key="AppSelectionBrush" Color="#CCE8FF" />
+    <SolidColorBrush x:Key="AppSelectionTextBrush" Color="#000000" />
+    <SolidColorBrush x:Key="AppDisabledBrush" Color="#E9E9E9" />
+    <SolidColorBrush x:Key="AppDisabledTextBrush" Color="#555555" />
+    <Style TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+    <Style TargetType="Button">
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="12,5" />
+      <Setter Property="Margin" Value="3,0" />
+      <Setter Property="Background" Value="{DynamicResource AppElevatedBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Chrome"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="3">
+              <ContentPresenter HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="{TemplateBinding Padding}"
+                                TextElement.Foreground="{TemplateBinding Foreground}" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource AppPanelBrush}" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource AppSelectionBrush}" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource AppMutedTextBrush}" />
+                <Setter TargetName="Chrome" Property="Opacity" Value="0.62" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="CaptionButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="Width" Value="46" />
+      <Setter Property="Height" Value="32" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="10" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+    </Style>
+    <Style x:Key="CloseCaptionButton" TargetType="Button" BasedOn="{StaticResource CaptionButton}">
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Background" Value="#C42B1C" />
+          <Setter Property="Foreground" Value="White" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style TargetType="TextBox">
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+      <Setter Property="CaretBrush" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+    <Style TargetType="PasswordBox">
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+      <Setter Property="CaretBrush" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+    <Style TargetType="CheckBox">
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="CheckBox">
+            <StackPanel Orientation="Horizontal">
+              <Border x:Name="Box"
+                      Width="16"
+                      Height="16"
+                      Margin="0,0,6,0"
+                      Background="{DynamicResource AppSurfaceBrush}"
+                      BorderBrush="{DynamicResource AppBorderBrush}"
+                      BorderThickness="1"
+                      CornerRadius="2">
+                <TextBlock x:Name="Mark"
+                           Text="&#xE73E;"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="11"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="Collapsed" />
+              </Border>
+              <ContentPresenter VerticalAlignment="Center" />
+            </StackPanel>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Box" Property="BorderBrush" Value="{DynamicResource AppAccentBrush}" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Box" Property="Background" Value="{DynamicResource AppAccentBrush}" />
+                <Setter TargetName="Box" Property="BorderBrush" Value="{DynamicResource AppAccentBrush}" />
+                <Setter TargetName="Mark" Property="Visibility" Value="Visible" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.6" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="ComboBoxItem">
+      <Setter Property="MinHeight" Value="30" />
+      <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Background" Value="{DynamicResource AppElevatedBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ComboBoxItem">
+            <Border x:Name="ItemChrome"
+                    Background="{TemplateBinding Background}"
+                    Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                TextElement.Foreground="{TemplateBinding Foreground}" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="ItemChrome" Property="Background" Value="{DynamicResource AppSelectionBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource AppSelectionTextBrush}" />
+              </Trigger>
+              <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="ItemChrome" Property="Background" Value="{DynamicResource AppSelectionBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource AppSelectionTextBrush}" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="ItemChrome" Property="Background" Value="{DynamicResource AppDisabledBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource AppDisabledTextBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="IsHighlighted" Value="True">
+          <Setter Property="Background" Value="{DynamicResource AppSelectionBrush}" />
+          <Setter Property="Foreground" Value="{DynamicResource AppSelectionTextBrush}" />
+        </Trigger>
+        <Trigger Property="IsSelected" Value="True">
+          <Setter Property="Background" Value="{DynamicResource AppSelectionBrush}" />
+          <Setter Property="Foreground" Value="{DynamicResource AppSelectionTextBrush}" />
+        </Trigger>
+        <Trigger Property="IsEnabled" Value="False">
+          <Setter Property="Foreground" Value="{DynamicResource AppMutedTextBrush}" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style TargetType="ComboBox">
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="8,4" />
+      <Setter Property="Background" Value="{DynamicResource AppElevatedBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ComboBox">
+            <Grid>
+              <ToggleButton x:Name="ToggleButton"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Focusable="False"
+                            IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                <ToggleButton.Template>
+                  <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="Chrome"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="3">
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="28" />
+                        </Grid.ColumnDefinitions>
+                        <Path Grid.Column="1"
+                              Data="M 0 0 L 4 4 L 8 0 Z"
+                              Fill="{DynamicResource AppTextBrush}"
+                              Width="8"
+                              Height="4"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+                      </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource AppPanelBrush}" />
+                      </Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </ToggleButton.Template>
+              </ToggleButton>
+              <ContentPresenter x:Name="ContentSite"
+                                IsHitTestVisible="False"
+                                Content="{TemplateBinding SelectionBoxItem}"
+                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                Margin="8,4,32,4"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                TextElement.Foreground="{TemplateBinding Foreground}" />
+              <Popup x:Name="Popup"
+                     Placement="Bottom"
+                     AllowsTransparency="True"
+                     Focusable="False"
+                     IsOpen="{TemplateBinding IsDropDownOpen}">
+                <Border Background="{DynamicResource AppElevatedBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1"
+                        MinWidth="{TemplateBinding ActualWidth}">
+                  <ScrollViewer MaxHeight="260">
+                    <ItemsPresenter />
+                  </ScrollViewer>
+                </Border>
+              </Popup>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource AppDisabledBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource AppDisabledTextBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="TabControl">
+      <Setter Property="Background" Value="{DynamicResource AppWindowBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TabControl">
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1">
+              <DockPanel LastChildFill="True">
+                <TabPanel DockPanel.Dock="Top"
+                          IsItemsHost="True"
+                          Background="{DynamicResource AppPanelBrush}" />
+                <Border BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="0,1,0,0"
+                        Background="{DynamicResource AppSurfaceBrush}">
+                  <ContentPresenter ContentSource="SelectedContent" Margin="12" />
+                </Border>
+              </DockPanel>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="TabItem">
+      <Setter Property="Padding" Value="12,7" />
+      <Setter Property="Background" Value="{DynamicResource AppPanelBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TabItem">
+            <Border x:Name="Chrome"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="0,0,1,0"
+                    Padding="{TemplateBinding Padding}">
+              <ContentPresenter ContentSource="Header"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+                <Setter TargetName="Chrome" Property="BorderThickness" Value="0,0,1,2" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource AppAccentBrush}" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource AppMutedTextBrush}" />
+                <Setter TargetName="Chrome" Property="Opacity" Value="0.55" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style TargetType="DataGrid">
+      <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+      <Setter Property="RowBackground" Value="{DynamicResource AppSurfaceBrush}" />
+      <Setter Property="AlternatingRowBackground" Value="{DynamicResource AppPanelBrush}" />
+      <Setter Property="SelectionUnit" Value="FullRow" />
+      <Setter Property="GridLinesVisibility" Value="Horizontal" />
+      <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource AppBorderBrush}" />
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+      <Setter Property="MinHeight" Value="30" />
+      <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Background" Value="{DynamicResource AppPanelBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    </Style>
+    <Style TargetType="DataGridCell">
+      <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+      <Setter Property="Padding" Value="6,3" />
+      <Style.Triggers>
+        <Trigger Property="IsSelected" Value="True">
+          <Setter Property="Background" Value="{DynamicResource AppSelectionBrush}" />
+          <Setter Property="Foreground" Value="{DynamicResource AppSelectionTextBrush}" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style TargetType="DataGridRow">
+      <Setter Property="MinHeight" Value="30" />
+      <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+    </Style>
+    <Style TargetType="GroupBox">
+      <Setter Property="Background" Value="{DynamicResource AppPanelBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+    </Style>
+  </Window.Resources>
+  <Border Background="{DynamicResource AppWindowBrush}"
+          BorderBrush="{DynamicResource AppSubtleBorderBrush}"
+          BorderThickness="1"
+          CornerRadius="10"
+          SnapsToDevicePixels="True">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="42" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Border Grid.Row="0"
+            Background="{DynamicResource AppPanelBrush}"
+            BorderBrush="{DynamicResource AppSubtleBorderBrush}"
+            BorderThickness="0,0,0,1"
+            CornerRadius="10,10,0,0"
+            MouseLeftButtonDown="TitleBarMouseLeftButtonDown">
+      <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Right"
+                    Orientation="Horizontal"
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True">
+          <Button Content="&#xE921;" Style="{StaticResource CaptionButton}" ToolTip="Minimize" Click="MinimizeClicked" />
+          <Button x:Name="MaximizeButton" Content="&#xE922;" Style="{StaticResource CaptionButton}" ToolTip="Maximize" Click="MaximizeRestoreClicked" />
+          <Button Content="&#xE8BB;" Style="{StaticResource CloseCaptionButton}" ToolTip="Close" Click="CloseClicked" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Margin="12,0,0,0">
+          <Image Source="Assets/app-icon.png"
+                 Width="18"
+                 Height="18"
+                 RenderOptions.BitmapScalingMode="HighQuality"
+                 Margin="0,0,8,0" />
+          <TextBlock Text="Settings"
+                     FontSize="13"
+                     FontWeight="SemiBold"
+                     VerticalAlignment="Center" />
+        </StackPanel>
+      </DockPanel>
+    </Border>
+
+    <TabControl Grid.Row="1" Margin="10">
+      <TabItem Header="Connection">
+        <Grid Margin="10">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Text="NAS host / IP" Grid.Row="0" Margin="0,5" />
+          <TextBox x:Name="HostBox" Grid.Row="0" Grid.Column="1" Margin="0,3" />
+          <TextBlock Text="Port" Grid.Row="1" Margin="0,5" />
+          <TextBox x:Name="PortBox" Grid.Row="1" Grid.Column="1" Margin="0,3" />
+          <TextBlock Text="Username" Grid.Row="2" Margin="0,5" />
+          <TextBox x:Name="UserBox" Grid.Row="2" Grid.Column="1" Margin="0,3" />
+          <TextBlock Text="Password" Grid.Row="3" Margin="0,5" />
+          <PasswordBox x:Name="PasswordBox" Grid.Row="3" Grid.Column="1" Margin="0,3" />
+          <CheckBox x:Name="SslBox" Content="Use HTTPS" Grid.Row="4" Grid.Column="1" Margin="0,8,0,0" />
+          <CheckBox x:Name="SslVerifyBox" Content="Verify HTTPS certificate" Grid.Row="5" Grid.Column="1" Margin="0,4,0,0" />
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Behavior">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <Grid Margin="0,2,8,10">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0" Margin="0,0,18,0">
+              <CheckBox x:Name="TaskbarBox" Content="Show in taskbar" Margin="0,4" />
+              <CheckBox x:Name="MinimizeToTrayBox" Content="Minimize to tray" Margin="0,4" />
+              <CheckBox x:Name="ExitToTrayBox" Content="Exit to tray when closing" Margin="0,4" />
+              <CheckBox x:Name="ClearResultsWithQueryBox" Content="Clear results when search text is cleared" Margin="0,4" />
+              <CheckBox x:Name="AlwaysOnTopBox" Content="Always on top" Margin="0,4" />
+              <CheckBox x:Name="FoldersFirstBox" Content="Show folders before files" Margin="0,4" />
+              <CheckBox x:Name="MatchingFoldersBox" Content="Show matching parent folders" Margin="0,4" />
+              <CheckBox x:Name="CollapseMatchingFoldersBox" Content="Collapse matching folders to one result" Margin="0,4" />
+              <CheckBox x:Name="SearchContentsBox" Content="Search file contents" Margin="0,4" />
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+              <CheckBox x:Name="HighlightMatchesBox" Content="Highlight matching text in results" Margin="0,4" />
+              <CheckBox x:Name="ShowInternalPathsBox" Content="Show Qsirch internal paths (advanced)" Margin="0,4" />
+              <CheckBox x:Name="QsirchThumbnailsBox" Content="Use Qsirch thumbnails for result icons" Margin="0,4" />
+              <CheckBox x:Name="PreviewPaneBox" Content="Show preview pane" Margin="0,4" />
+              <CheckBox x:Name="AllowDownloadBox" Content="Show Download button" Margin="0,4" />
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,16,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,18,14">
+                <TextBlock Text="Theme" Margin="0,0,0,4" />
+                <ComboBox x:Name="ThemeBox" Width="180" HorizontalAlignment="Left">
+                  <ComboBoxItem Content="Follow Windows" Tag="system" />
+                  <ComboBoxItem Content="Light" Tag="light" />
+                  <ComboBoxItem Content="Dark" Tag="dark" />
+                </ComboBox>
+              </StackPanel>
+              <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,14">
+                <TextBlock Text="Default results view" Margin="0,0,0,4" />
+                <ComboBox x:Name="ResultViewBox" Width="180" HorizontalAlignment="Left">
+                  <ComboBoxItem Content="Large icons" Tag="large_icons" />
+                  <ComboBoxItem Content="Small icons" Tag="small_icons" />
+                  <ComboBoxItem Content="List" Tag="list" />
+                  <ComboBoxItem Content="Details" Tag="details" />
+                </ComboBox>
+              </StackPanel>
+              <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,18,14">
+                <TextBlock Text="Default sort" Margin="0,0,0,4" />
+                <ComboBox x:Name="ResultSortBox" Width="180" HorizontalAlignment="Left">
+                  <ComboBoxItem Content="Folder groups" Tag="folder" />
+                  <ComboBoxItem Content="Recentness" Tag="recent" />
+                  <ComboBoxItem Content="Date modified" Tag="modified" />
+                  <ComboBoxItem Content="Name" Tag="name" />
+                  <ComboBoxItem Content="Location" Tag="location" />
+                  <ComboBoxItem Content="Type" Tag="type" />
+                  <ComboBoxItem Content="Size" Tag="size" />
+                </ComboBox>
+              </StackPanel>
+              <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,14">
+                <TextBlock Text="Hide / unhide shortcut" Margin="0,0,0,4" />
+                <TextBox x:Name="HotkeyBox" Width="180" HorizontalAlignment="Left" />
+                <TextBlock Text="Example: Ctrl+S, Alt+Q, Ctrl+Shift+F" Foreground="{DynamicResource AppMutedTextBrush}" TextWrapping="Wrap" Margin="0,5,0,0" />
+              </StackPanel>
+              <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,18,0">
+                <TextBlock Text="Qsirch timeout seconds" Margin="0,0,0,4" />
+                <TextBox x:Name="SearchTimeoutBox" Width="80" HorizontalAlignment="Left" />
+              </StackPanel>
+              <StackPanel Grid.Row="2" Grid.Column="1">
+                <TextBlock Text="Result paging" Margin="0,0,0,4" />
+                <StackPanel Orientation="Horizontal">
+                  <TextBox x:Name="FirstPageSizeBox" Width="80" ToolTip="First result page size" />
+                  <TextBox x:Name="NextPageSizeBox" Width="80" Margin="8,0,0,0" ToolTip="Next result page size" />
+                  <TextBox x:Name="ResultLimitBox" Width="80" Margin="8,0,0,0" ToolTip="Initial result limit" />
+                </StackPanel>
+              </StackPanel>
+            </Grid>
+          </Grid>
+        </ScrollViewer>
+      </TabItem>
+
+      <TabItem Header="Path Mapping">
+        <DockPanel Margin="10">
+          <DataGrid x:Name="MappingsGrid" AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Qsirch path / share root" Binding="{Binding ShareRoot}" Width="*" />
+              <DataGridTextColumn Header="Mapped path" Binding="{Binding MappedRoot}" Width="*" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </DockPanel>
+      </TabItem>
+
+      <TabItem Header="Rules">
+        <TabControl Margin="10">
+          <TabItem Header="Exclusions">
+            <Grid Margin="0,8,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <GroupBox Header="Folders" Margin="0,0,6,0">
+                <DockPanel>
+                  <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="6">
+                    <Button Content="Add" Width="72" Click="AddFolderRuleClicked" />
+                    <Button Content="Remove" Width="82" Click="RemoveFolderRuleClicked" />
+                  </StackPanel>
+                  <DataGrid x:Name="FolderRulesGrid"
+                            Margin="6"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="True"
+                            CanUserDeleteRows="True">
+                    <DataGrid.Columns>
+                      <DataGridCheckBoxColumn Header="Global"
+                                              Binding="{Binding IsGlobal, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="70" />
+                      <DataGridTextColumn Header="Folder rule"
+                                          Binding="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
+                                          Width="*" />
+                    </DataGrid.Columns>
+                  </DataGrid>
+                </DockPanel>
+              </GroupBox>
+              <GroupBox Header="Files" Grid.Column="1" Margin="6,0,0,0">
+                <DockPanel>
+                  <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="6">
+                    <Button Content="Add" Width="72" Click="AddFileRuleClicked" />
+                    <Button Content="Remove" Width="82" Click="RemoveFileRuleClicked" />
+                  </StackPanel>
+                  <DataGrid x:Name="FileRulesGrid"
+                            Margin="6"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="True"
+                            CanUserDeleteRows="True">
+                    <DataGrid.Columns>
+                      <DataGridCheckBoxColumn Header="Global"
+                                              Binding="{Binding IsGlobal, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="70" />
+                      <DataGridTextColumn Header="File rule"
+                                          Binding="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
+                                          Width="*" />
+                    </DataGrid.Columns>
+                  </DataGrid>
+                </DockPanel>
+              </GroupBox>
+            </Grid>
+          </TabItem>
+          <TabItem Header="Visibility">
+            <DockPanel Margin="0,8,0,0">
+              <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+                <CheckBox x:Name="VisibilityThisMachineBox" Content="This machine" IsChecked="True" Margin="0,0,12,0" />
+                <CheckBox x:Name="VisibilityThisUserBox" Content="This user" Margin="0,0,12,0" />
+                <Button Content="Add deny" Width="82" Click="AddVisibilityRuleClicked" />
+                <Button Content="Add allow" Width="82" Click="AddVisibilityAllowClicked" />
+                <Button Content="Remove" Width="82" Click="RemoveVisibilityRuleClicked" />
+              </StackPanel>
+              <DataGrid x:Name="VisibilityRulesGrid"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="True"
+                        CanUserDeleteRows="True">
+                <DataGrid.Columns>
+                  <DataGridCheckBoxColumn Header="All machines"
+                                          Binding="{Binding IsGlobal, UpdateSourceTrigger=PropertyChanged}"
+                                          Width="70" />
+                  <DataGridComboBoxColumn Header="Access"
+                                          SelectedItemBinding="{Binding Access, UpdateSourceTrigger=PropertyChanged}"
+                                          Width="90">
+                    <DataGridComboBoxColumn.ItemsSource>
+                      <x:Array Type="{x:Type sys:String}">
+                        <sys:String>deny</sys:String>
+                        <sys:String>allow</sys:String>
+                      </x:Array>
+                    </DataGridComboBoxColumn.ItemsSource>
+                  </DataGridComboBoxColumn>
+                  <DataGridTextColumn Header="User or domain user"
+                                      Binding="{Binding Identity, UpdateSourceTrigger=PropertyChanged}"
+                                      Width="160" />
+                  <DataGridTextColumn Header="Path pattern"
+                                      Binding="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
+                                      Width="*" />
+                </DataGrid.Columns>
+              </DataGrid>
+            </DockPanel>
+          </TabItem>
+        </TabControl>
+      </TabItem>
+
+      <TabItem Header="History">
+        <StackPanel MaxWidth="480" HorizontalAlignment="Left">
+          <CheckBox x:Name="HistoryEnabledBox" Content="Keep saved Favorites and folders" Margin="0,4" />
+          <TextBlock Text="Saved Favorites are kept in a local SQLite database for the current Windows user." TextWrapping="Wrap" Margin="0,10,0,6" Foreground="{DynamicResource AppMutedTextBrush}" />
+          <CheckBox x:Name="ClearHistoryBox" Content="Clear this user's saved results when saving" Margin="0,8,0,4" />
+          <CheckBox x:Name="ClearStarredBox" Content="Also clear starred results" Margin="0,4" />
+          <Button Content="Reset local saved-data database" HorizontalAlignment="Left" Margin="0,14,0,0" Click="ResetDatabaseClicked" ToolTip="Clears this user's Favorites, folders, and saved searches" />
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+
+    <DockPanel Grid.Row="2" Margin="10,0,10,10">
+      <Button Content="Cancel" Width="82" DockPanel.Dock="Right" Click="CancelClicked" />
+      <Button Content="Save" Width="82" DockPanel.Dock="Right" Click="SaveClicked" />
+    </DockPanel>
+  </Grid>
+  </Border>
+</Window>
